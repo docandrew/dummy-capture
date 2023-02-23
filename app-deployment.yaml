@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: capture-replay
+
+spec:
+  selector:
+    matchLabels:
+      app: capture-replay
+
+  template:
+    metadata:
+      labels:
+        app: capture-replay
+    
+    # hostNetwork: true
+
+    spec:
+      containers:
+
+      - name: capture
+        image: jonfandrew/capture
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
+
+      - name: replay
+        image: jonfandrew/replay
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN

@@ -1,0 +1,11 @@
+# Set up a dummy interface and start streaming to it
+FROM ubuntu:latest
+RUN apt update
+RUN apt install iproute2 tcpreplay -y
+
+RUN mkdir /pcaps/
+COPY default.pcap /pcaps/default.pcap
+COPY replay.sh /replay.sh
+
+RUN chmod +x /replay.sh
+ENTRYPOINT [ "/replay.sh" ]
